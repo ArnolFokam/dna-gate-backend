@@ -407,3 +407,5 @@ fabric.properties
 !.vscode/*.code-snippets
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,jetbrains,python,flask,visualstudiocode
+
+app.py

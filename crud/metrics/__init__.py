@@ -10,15 +10,16 @@ database = get_settings().database
 
 
 async def setup_metrics_collection(db):
-
+    """
+    timeseries={
+        "timeField": "ts",
+        "metaField": "metadata",
+        "granularity": "hours"
+    },
+    """
     for collection_name in collections:
         try:
             await db[database].create_collection(collection_name,
-                                                 timeseries={
-                                                     "timeField": "ts",
-                                                     "metaField": "metadata",
-                                                     "granularity": "hours"
-                                                 },
                                                  expireAfterSeconds=15552000  # six months
                                                  )
         except CollectionInvalid:
