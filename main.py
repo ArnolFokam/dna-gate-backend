@@ -16,10 +16,7 @@ logging.basicConfig(filename='server.log',
 app = FastAPI()
 app.include_router(api_router)
 
-origins = [
-    get_settings().client_url,
-    "http://localhost:3001"
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
