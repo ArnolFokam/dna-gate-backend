@@ -1,8 +1,6 @@
-import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from core.config import get_settings
 from database.db import connect_db, close_db
 from routers.api import api_router
 

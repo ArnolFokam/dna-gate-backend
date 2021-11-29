@@ -9,3 +9,4 @@ python-jose~=3.3.0
 modzy-sdk~=0.5.7
 numpy~=1.21.3
 opencv-python~=4.5.4.58
+python-multipart~=0.0.5
