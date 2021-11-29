@@ -35,7 +35,4 @@ async def startup_event():
 @app.on_event("shutdown")
 async def startup_event():
     await close_db()
-
-
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=get_settings().port, reload=True)
+    
