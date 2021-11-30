@@ -12,7 +12,6 @@ class Settings(BaseSettings):
     token_expire_minutes: int
     api_key_name: str = "Api-Key"
     modzy_api_key: str
-    encryption_key: str
 
 
 class DevSettings(Settings):
