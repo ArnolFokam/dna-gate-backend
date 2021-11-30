@@ -42,7 +42,7 @@ Distributed under the Apache 2.0 License. See `LICENSE.txt` for more information
 
 Arnol Fokam - [@ArnolFokam](https://twitter.com/arnolfokam)
 
-Project Link: [https://github.com/ArnolFokam/dna-gate](https://github.com/ArnolFokam/dna-gate)
+Project Link: [https://github.com/ArnolFokam/dna-gate](https://github.com/ArnolFokam/dna-gate-backend)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
