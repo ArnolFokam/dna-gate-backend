@@ -30,9 +30,9 @@ DATABASE=mongodb database to use
 MODZY_API_KEY=your modzy api key
 ```
 4. Run ```pip install -r requirements``` (Make sure that you have [Python <= 3.8](https://www.python.org/) and [pip](https://pip.pypa.io/en/stable/installation/) before running this command)
-5. Run ```uvicorn main:app --host=0.0.0.0 --port=${PORT:-5000}```
+5. Run ```uvicorn main:app --host=0.0.0.0 --port=${PORT:-8000}```
 
-You should have your backend up and running at [http://localhost:5000](http://localhost:5000). You can see the SwaggerUI API documentation of the backend at this [link](http://localhost:5000/api/docs) 
+You should have your backend up and running at [http://localhost:8000](http://localhost:8000). You can see the SwaggerUI API documentation of the backend at this [link](http://localhost:8000/api/docs) 
 
 ## License
 
