@@ -1,53 +1,34 @@
-<div id="top"></div>
-
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/ArnolFokam/dna-gate">
-    <img src="images/app-icon.png" alt="Logo" width="60" height="75">
-  </a>
-
-<h3 align="center">DNA Gate</h3>
-
-  <p align="center">
-    A SaaS platform for robust biometric authentication
-    <br />
-    <br />
-    <a href="https://dna-gate-dashboard.vercel.app">View Demo (Dashboard)</a>
-    <br />
-    <a href="https://dna-gate-example-app.herokuapp.com/">View Demo (Example App)</a>
-    <br />
-  </p>
-</div>
-
 ## About The Project
+This is the backend of DNA Gate, a SaaS app for robust biometric authentication. 
 
-<p align="center">
-  <img src="https://github.com/ArnolFokam/dna-gate/blob/main/images/dashboard.png?raw=true" />
-</p>
-
-This is a SaaS app for robust biometric authentication which gives the possibilities to developers like you who need biometric authentication 
-systems but do not necessarily want to take an AI course at MIT to do so. 
-
-How? It empowers your apps with the ability to perform biometric
-authentication while  keeping a layer of abstraction that will help you focus on your entire product rather than part of your product (authentication). 
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+Check this [link](https://github.com/ArnolFokam/dna-gate) for more information.
 
 ### Built With
 
-* [React](https://reactjs.org/)
 * [FastAPI](https://fastapi.tiangolo.com/)
-* [Windmill ReactUI](https://windmillui.com/react-ui/)
 * [MongoDB](mongodb.com)
 * [Express](https://expressjs.com/)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 ## Getting Started
 
-You can get the instructions on how to run each component of the project locally in the their respective folders.
+1. Clone the repository
+2. Enter the project's directory and edit the .env file as following
+```
+APP_NAME=ModzyHack
+ENV=development
+
+SECRET_KEY=supersecretkey
+ALGORITHM=HS256
+TOKEN_EXPIRE_MINUTES=60
+
+MONGODB_URL=uri of a running mongo instance (eg. mongodb://127.0.0.1:27017/?retryWrites=true&w=majority)
+DATABASE=mongodb database to use
+
+MODZY_API_KEY=your modzy api key
+```
+4. Run ```pip install -r requirements```
+5. Run ```uvicorn main:app --host=0.0.0.0 --port=${PORT:-5000}```
 
 
 ## License
@@ -68,6 +49,4 @@ Project Link: [https://github.com/ArnolFokam/dna-gate](https://github.com/ArnolF
 ## Acknowledgments
 
 * [Modzy](https://www.modzy.com/) (Computer Vision pre-trained models)
-* [WindmillUI](https://windmillui.com/dashboard-react) (Admin dashboard)
-
 <p align="right">(<a href="#top">back to top</a>)</p>
