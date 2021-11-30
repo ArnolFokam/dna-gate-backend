@@ -2,7 +2,7 @@ from fastapi import Security, Depends
 from fastapi import APIRouter
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from core.security.biometrics import get_current_user
+from core.security.users import get_current_user
 from crud.biometric_info import get_total_biometric_infos, get_total_biometric_infos_by_type
 from crud.metrics.biometrics import get_action_history, get_total_number_of_actions
 from database.db import get_db
@@ -12,10 +12,6 @@ from schemas.user import UserInDB
 router = APIRouter(
     prefix="/metrics"
 )
-
-#  TODO: should we really make the metrics through the api key?
-#   would be nice to use the bearer token for user auth directly in this
-#   way, the user can specify the app he wants to get the metrics from
 
 
 @router.get("/usage-history", response_model=UsageHistory)
