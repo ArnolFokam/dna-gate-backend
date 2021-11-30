@@ -19,6 +19,14 @@ async def get_biometric_info_by_id(db: AsyncIOMotorClient,
         return BiometricInfoInDB(**info)
 
 
+async def delete_biometric_info_by_id(db: AsyncIOMotorClient,
+                                      info_id: str,
+                                      tenant_id: str):
+    delete_result = await db[database][collection_name].find_one_and_delete({"_id": BaseObjectId(info_id),
+                                                                             "tenant_id": BaseObjectId(tenant_id)})
+    return delete_result
+
+
 async def get_all_biometric_info_by_tenant(db: AsyncIOMotorClient,
                                            tenant_id: str):
     infos = await db[database][collection_name].find({"tenant_id": BaseObjectId(tenant_id)}).to_list(length=1000)

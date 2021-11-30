@@ -4,12 +4,15 @@ from fastapi import APIRouter, Security, Depends, HTTPException, UploadFile, Fil
 from fastapi.exceptions import RequestValidationError
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import ValidationError
+from starlette import status
+from starlette.responses import JSONResponse
 
 from core.biometrics.emebddings import verify_embedding_match
 from core.biometrics.facial import get_face_embedding, validate_face_input
 from core.biometrics.vocal import get_voice_embedding, validate_voice_input
 from core.security.biometrics import get_current_user
-from crud.biometric_info import get_biometric_info_by_id, insert_biometric_info, update_biometric_info
+from crud.biometric_info import get_biometric_info_by_id, insert_biometric_info, update_biometric_info, \
+    get_all_biometric_info_by_tenant, delete_biometric_info_by_id
 from crud.metrics.biometrics import insert_metrics_usage
 from database.db import get_db
 from schemas.biometric_info import BiometricInfoInsert, BiometricInfoReturn, MatchResponse
@@ -18,6 +21,21 @@ from schemas.user import UserInDB
 router = APIRouter(
     prefix="/info"
 )
+
+
+@router.get("/")
+async def get_all_biometric_by_tenant(db: AsyncIOMotorClient = Depends(get_db),
+                                      current_user: UserInDB = Security(get_current_user)):
+    infos = await get_all_biometric_info_by_tenant(db, str(current_user.id))
+
+    infos = [{
+        "hasFacial": info.facial is not None,
+        "hasVocal": info.vocal is not None,
+        "id": str(info.id),
+        "tenant_id": str(info.tenant_id),
+    } for info in infos]
+
+    return infos
 
 
 @router.get("/{info_id}", response_model=BiometricInfoReturn)
@@ -179,3 +197,13 @@ async def update_existing_biometric_info(info_id: str,
                                datetime.datetime.utcnow())
 
     return updated_info
+
+
+@router.delete("/{info_id}", response_model=BiometricInfoReturn)
+async def delete_biometric_by_id(info_id: str,
+                                 db: AsyncIOMotorClient = Depends(get_db),
+                                 current_user: UserInDB = Security(get_current_user)):
+    delete_result = await delete_biometric_info_by_id(db, info_id, str(current_user.id))
+    if delete_result is not None:
+        return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
+    raise HTTPException(status_code=404, detail=f"Biometric info with {info_id} not found")
