@@ -15,7 +15,7 @@ Check this [link](https://github.com/ArnolFokam/dna-gate) for more information.
 ## Getting Started
 
 1. Clone the repository
-2. Enter the project's directory and edit the .env file as following
+2. Enter the project's directory and edit the .env file as follows
 ```
 APP_NAME=ModzyHack
 ENV=development
