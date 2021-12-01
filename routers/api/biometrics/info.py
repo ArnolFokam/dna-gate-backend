@@ -72,9 +72,9 @@ async def add_new_biometric_info(face_image: UploadFile = File(None),
     if voice_recording is not None:
         voice_recording = validate_voice_input(voice_recording)
 
-    # get the embedding from th faces
-    # if face_image is not None:
-    #    info["facial"] = await get_face_embedding(face_image)
+    # get the embedding from the faces
+    if face_image is not None:
+        info["facial"] = await get_face_embedding(face_image)
 
     if voice_recording is not None:
         info["vocal"] = await get_voice_embedding(voice_recording)
