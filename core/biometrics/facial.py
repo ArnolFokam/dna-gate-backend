@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 from fastapi import File, HTTPException
 
 from core.biometrics import modzy_client, models

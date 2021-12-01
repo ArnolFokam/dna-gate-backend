@@ -1,13 +1,14 @@
 from fastapi import File, HTTPException
 
 from core.biometrics import modzy_client, models
+from core.preprocessing.voice import bytes2voice, voice2bytes
 
 model_name = "voice"
 
 
 async def get_voice_embedding(voice_recording: File(...)):
-    voice_recording = preprocess_voice(voice_recording)
-    voice_recording = await voice_recording.read()
+    voice_recording = preprocess_voice(await voice_recording.read(),
+                                       voice_recording.content_type)
 
     try:
         job = modzy_client.jobs.submit_file(models[model_name]['id'],
@@ -32,5 +33,8 @@ def validate_voice_input(voice_recording: File(...)):
     return voice_recording
 
 
-def preprocess_voice(voice_recording: File(...)):
+def preprocess_voice(voice_recording: bytes, content_type: str):
+    # TODO: implement voice processing steps first before using voice
+    # voice = bytes2voice(voice_recording, content_type)
+    # voice_recording = voice2bytes(voice)
     return voice_recording
