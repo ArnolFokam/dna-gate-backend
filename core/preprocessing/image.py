@@ -13,3 +13,14 @@ def image2bytes(image, ext='jpg'):
     """convert opencv (BGR) image to bytes string"""
     _, buffer = cv2.imencode(f'.{ext}', image)
     return buffer.tobytes()
+
+
+def hisEqualColor(img):
+    """Convert image to a more equalized version"""
+    ycrcb = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
+    channels = cv2.split(ycrcb)
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    clahe.apply(channels[0], channels[0])
+    cv2.merge(channels, ycrcb)
+    cv2.cvtColor(ycrcb, cv2.COLOR_YCR_CB2BGR, img)
+    return img

@@ -10,7 +10,7 @@ class BiometricInfo(BaseModel):
 
     @validator('facial')
     def facial_embedding_must_have_correct_length(cls, v):
-        if len(v) != 512:
+        if v is not None and len(v) != 512:
             raise ValueError('must be a 512-D vector embedding')
         return v
 

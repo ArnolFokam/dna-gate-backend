@@ -1,8 +1,10 @@
 import cv2
 from fastapi import File, HTTPException
+from modzy.error import Error
+import logging
 
 from core.biometrics import modzy_client, models
-from core.preprocessing.image import bytes2image, image2bytes
+from core.preprocessing.image import bytes2image, image2bytes, hisEqualColor
 
 model_name = "face"
 
@@ -17,11 +19,18 @@ async def get_face_embedding(face_image: File(...)):
                                             {'my-input': {'image': preprocessed_face_image}})
         results = modzy_client.results.block_until_complete(job, timeout=None)
         return results['results']['my-input']['results.json']['embedding']
-    except KeyError:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Please upload a valid image with a face on it",
-        )
+    except (Error, KeyError) as e:
+        if isinstance(e, KeyError):
+            logging.error(e)
+            raise HTTPException(
+                status_code=400,
+                detail=f"Please upload a valid image with a face on it",
+            )
+        else:
+            raise HTTPException(
+                status_code=500,
+                detail=f"An error occurred",
+            )
 
 
 def validate_face_input(face_image):
@@ -36,6 +45,7 @@ def validate_face_input(face_image):
 
 def preprocess_face(face_image: bytes, content_type: str):
     im = bytes2image(face_image)
+    im = hisEqualColor(im)
 
     # detect face
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -44,17 +54,23 @@ def preprocess_face(face_image: bytes, content_type: str):
                                                    minNeighbors=5,)
 
     if len(faces_detected) != 1:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Could not identify a suitable face in the image,"
-                   f" Please make sure you are in a room with enough lighting "
-                   f"and there is only one face in the picture",
-        )
+        if len(faces_detected) == 0:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Could not identify a suitable face in the image",
+            )
+        else:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Please make sure you are the only face in the image",
+            )
 
     # extract region around face
     x, y, w, h = faces_detected[0]
     eyes_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
-    eyes = eyes_cascade.detectMultiScale(im[y:y+h, x:x+w])
+    eyes = eyes_cascade.detectMultiScale(im[y:y+h, x:x+w],
+                                         scaleFactor=1.1,
+                                         minNeighbors=2)
 
     # for in case, we detect the two
     # nostrils as eyes (happens sometimes)
