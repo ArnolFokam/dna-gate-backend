@@ -34,6 +34,10 @@ MODZY_API_KEY=your modzy api key
 
 You should have your backend up and running at [http://localhost:8000](http://localhost:8000). You can see the SwaggerUI API documentation of the backend at this [link](http://localhost:8000/api/docs) 
 
+Note:
+If you deploy to heroku, you need to add soundfile library package for voice recognition to work. 
+To do so, add the [apt buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-apt) and it will look at [Aptfile](https://github.com/ArnolFokam/dna-gate-backend/blob/main/Aptfile) in the project to install necessary libraries.
+
 ## License
 
 Distributed under the Apache 2.0 License. See `LICENSE.txt` for more information.
