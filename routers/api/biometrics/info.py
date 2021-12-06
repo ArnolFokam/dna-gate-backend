@@ -140,7 +140,7 @@ async def verify_voice_biometric_by_id(info_id: str,
     else:
         current_voice = current_info.vocal
         incoming_voice = await get_voice_embedding(voice_recording)
-        results = verify_embedding_match(current_voice, incoming_voice, 13)
+        results = verify_embedding_match(current_voice, incoming_voice, 15.3)
 
         # replace action with constant for centralization
         # TODO: find a way to log the event when the verification was successful or failed
