@@ -18,7 +18,7 @@ api_key_header = APIKeyHeader(name=API_KEY_NAME,  scheme_name="API key header", 
 async def get_current_user(api_key: str = Security(api_key_header),  db: AsyncIOMotorClient = Depends(get_db)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
+        detail="Could not validate credentials. Check your DNA Gate API-Key",
         headers={"WWW-Authenticate": f"Api-Key"},
     )
 
